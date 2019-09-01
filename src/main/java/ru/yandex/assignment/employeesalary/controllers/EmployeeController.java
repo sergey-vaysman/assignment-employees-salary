@@ -3,9 +3,9 @@ package ru.yandex.assignment.employeesalary.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import ru.yandex.assignment.employeesalary.domain.Employee;
-import ru.yandex.assignment.employeesalary.domain.Salary;
 import ru.yandex.assignment.employeesalary.services.EmployeeService;
 
 import java.util.List;
@@ -17,13 +17,17 @@ public class EmployeeController {
     private EmployeeService employeeService;
 
     @PostMapping("/api/create_employee")
-    public Employee createEmployee(Employee employee) {
+    public Employee createEmployee(@RequestBody Employee employee) {
+        boolean isDataValid = employee != null && employee.name != null && employee.salary != null && employee.salary.value != null;
+        if (!isDataValid) throw new IllegalArgumentException("Invalid request data");
         return employeeService.createEmployee(employee);
     }
 
-    @PostMapping("/api/edit_salary")
-    public Employee editSalary(Long employeeId, Salary salary) {
-        return employeeService.editSalary(employeeId, salary);
+    @PostMapping("/api/edit_employee")
+    public void editEmployee(@RequestBody Employee employee) {
+        boolean isDataValid = employee != null && employee.id != null && employee.salary != null && employee.salary.value != null;
+        if (!isDataValid) throw new IllegalArgumentException("Invalid request data");
+        employeeService.editSalary(employee.id, employee.salary);
     }
 
     @GetMapping("/api/all_employees")
@@ -32,8 +36,10 @@ public class EmployeeController {
     }
 
     @PostMapping("/api/remove_employee")
-    public void removeEmployee(Long employeeId) {
-        employeeService.removeEmployee(employeeId);
+    public void removeEmployee(@RequestBody Employee employee) {
+        boolean isDataValid = employee != null;
+        if (!isDataValid) throw new IllegalArgumentException("Invalid request data");
+        employeeService.removeEmployee(employee.id);
     }
 
 }
