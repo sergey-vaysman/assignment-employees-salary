@@ -26,8 +26,8 @@ public class EmployeeService {
         return dao.getAllEmployees();
     }
 
-    public void removeEmployee(Long employeeId) {
-        dao.removeEmployee(employeeId);
+    public void removeAllEmployees() {
+        dao.removeAllEmployees();
     }
 
 

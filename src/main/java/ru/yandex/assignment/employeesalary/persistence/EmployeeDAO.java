@@ -59,12 +59,9 @@ public class EmployeeDAO {
     }
 
     @Transactional
-    public void removeEmployee(Long employeeId) {
-        List<Long> salaryId = jdbcTemplate.query("SELECT salary_id FROM employee WHERE id = ?", new Object[]{employeeId}, (rs, rowNum) -> rs.getLong(1));
-        if (salaryId.isEmpty())
-            throw new RuntimeException(String.format("Incorrect data for employee.id = %d", employeeId));
-        jdbcTemplate.update("DELETE FROM employee WHERE id = ?", employeeId);
-        jdbcTemplate.update("DELETE FROM salary WHERE id = ?", salaryId);
+    public void removeAllEmployees() {
+        jdbcTemplate.update("DELETE FROM employee");
+        jdbcTemplate.update("DELETE FROM salary");
     }
 
 }

@@ -35,11 +35,9 @@ public class EmployeeController {
         return employeeService.getAllEmployees();
     }
 
-    @PostMapping("/api/remove_employee")
-    public void removeEmployee(@RequestBody Employee employee) {
-        boolean isDataValid = employee != null;
-        if (!isDataValid) throw new IllegalArgumentException("Invalid request data");
-        employeeService.removeEmployee(employee.id);
+    @PostMapping("/api/remove_all_employees")
+    public void removeEmployee() {
+        employeeService.removeAllEmployees();
     }
 
 }
