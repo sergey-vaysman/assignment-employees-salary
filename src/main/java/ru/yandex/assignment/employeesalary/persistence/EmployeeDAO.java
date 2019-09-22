@@ -26,6 +26,12 @@ public class EmployeeDAO {
         salaryInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("salary").usingGeneratedKeyColumns("id");
     }
 
+    EmployeeDAO(JdbcTemplate jdbcTemplate, SimpleJdbcInsert employeeInsert, SimpleJdbcInsert salaryInsert) {
+        this.jdbcTemplate = jdbcTemplate;
+        this.employeeInsert = employeeInsert;
+        this.salaryInsert = salaryInsert;
+    }
+
     @Transactional
     public Employee createEmployee(Employee employee) {
         Map<String, Object> params = new HashMap<>();
